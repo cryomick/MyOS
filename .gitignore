@@ -1,0 +1,7 @@
+target/
+kernel/*.o
+kernel/*.elf
+kernel/*.bin
+boot/*bin
+boot/*.elf
+boot/*.o
