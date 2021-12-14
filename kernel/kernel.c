@@ -1,28 +1,19 @@
-#include "kernel.h"
-
-void init_vga(void) {
-    vga_buffer = (uint16_t*)VGA_ADDRESS;
-    clear_vga_buffer(&vga_buffer);
-}
-
-void clear_vga_buffer(uint16_t **vga_buffer) {
-    for(int i = 0; i < VGA_BUF_SIZE; i++) {
-        (*vga_buffer)[i] = NULL;
-    }
-}
-
-void kprintf(const char* _str) {
-    while((*_str) != 0) {
-        uint16_t val = (0x0f << 8) | (*_str);
-        *vga_buffer++ = val;
-        _str++;
-    }
-}
+#include "../drivers/ports.h"
 
 void main() {
-    init_vga();
-    kprintf("Hello from MyOS!!!");
-    kprintf("Hello from MyOS!!!");
-    kprintf("Hello from MyOS!!!");
+    // request for high byte (14) of the cursor
+    port_byte_out(0x3d4, 14);
+    // read result from 0x3d5
+    int position = port_byte_in(0x3d5);
+    position = position << 8;
+
+    port_byte_out(0x3d4, 15);
+    position += port_byte_in(0x3d5);
+
+    int offset_from_vga = position * 2; // Accounting for attributes
+
+    char *vga = 0xb8000;
+    vga[offset_from_vga] = 'X';
+    vga[offset_from_vga + 1] = 0x0f;
 }
 
