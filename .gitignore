@@ -5,3 +5,6 @@ kernel/*.bin
 boot/*bin
 boot/*.elf
 boot/*.o
+drivers/*bin
+drivers/*.elf
+drivers/*.o
