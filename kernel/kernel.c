@@ -1,12 +1,12 @@
 #include "../drivers/screen.h"
+#include "util.h"
+#include "../cpu/idt.h"
+#include "../cpu/isr.h"
 
 void main() {
     clear_screen();
-    kprint_at("X", 1, 6);
-    kprint_at("This text spans multiple lines", 75, 10);
-    char* message = "There is a line\nbreak";
-    kprint_at(message, 0, 20);
-    kprint("Regular print\nworking fine");
-    kprint_at("What happens when we run out of space?", 45, 24);
+    isr_install();
+    __asm__ __volatile__("int $5");
+    __asm__ __volatile__("int $6");
 }
 

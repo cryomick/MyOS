@@ -8,3 +8,6 @@ boot/*.o
 drivers/*bin
 drivers/*.elf
 drivers/*.o
+cpu/*bin
+cpu/*.elf
+cpu/*.o

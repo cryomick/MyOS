@@ -6,14 +6,14 @@
 # Adding build as a target to create the build directory
 # Specifying it as a plain target will affect $^, so we use | to mark it
 
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
-OBJ = ${C_SOURCES:.c=.o}
+C_SOURCES = $(wildcard drivers/*.c cpu/*.c kernel/*.c)
+HEADERS = $(wildcard drivers/*.h cpu/*.h kernel/*.h)
+OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 CC = i686-elf-gcc
 GDB = i386-elf-gdb
 LD = i686-elf-ld
 QEMU = qemu-system-i386
-CFLAGS = -g
+CFLAGS = -g -fcommon
 
 all: target/MyOS.bin | target
 
@@ -47,4 +47,4 @@ debug: target/MyOS.bin kernel/kernel.elf
 
 clean:
 	rm -rf target/
-	rm -rf kernel/*.o kernel/*.elf kernel/*.bin drivers/*.o boot/*.o boot/*.bin
+	rm -rf kernel/*.o kernel/*.elf kernel/*.bin drivers/*.o boot/*.o boot/*.bin cpu/*.o cpu/*.bin
